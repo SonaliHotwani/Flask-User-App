@@ -1,9 +1,10 @@
+const DOMAIN = "__DOMAIN__";
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("userForm").addEventListener("submit", async function (e) {
         e.preventDefault();
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
-        const url = `${process.env.DOMAIN}/api/users`;
+        const url = `${DOMAIN}/api/users`;
 
         const response = await fetch(url, {
             method: "POST",
