@@ -9,34 +9,11 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
-
-      - name: Create and Activate Virtual Environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-
-      - name: Install Dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r app/requirements.txt
-
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Trigger Render Deployment
-        run: |
-          curl -X POST "$RENDER_DEPLOY_HOOK"
-        env:
-          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl -X POST "$RENDER_DEPLOY_HOOK"
