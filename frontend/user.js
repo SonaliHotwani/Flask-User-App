@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
+        const url = ${DOMAIN}"/api/users";
 
-        const response = await fetch("/api/users", {
+        const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email })
