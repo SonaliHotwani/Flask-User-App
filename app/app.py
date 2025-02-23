@@ -17,6 +17,10 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
 
+with app.app_context():
+    db.create_all()
+
+
 @app.route('/')
 def index():
     return render_template('user.html')  # Flask will look in the updated template folder
