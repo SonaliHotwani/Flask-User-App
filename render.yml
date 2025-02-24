@@ -12,5 +12,3 @@
 #databases:
 #  - name: userdb
 #    plan: free
-
-postgresql://admin:7jTMjZ4LHkJ0j2toPxw2bYBHkI3CZwWR@dpg-curu1pi3esus73fgmns0-a.oregon-postgres.render.com/userdb_k6ui
