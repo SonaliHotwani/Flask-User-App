@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 
 app = Flask(__name__, template_folder="../")  # Update template folder path
+CORS(app, origins=[os.getenv('FRONTEND_DOMAIN', 'https://frontend.com')])
 
 # PostgreSQL connection
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://user:password@localhost:5432/mydb')
