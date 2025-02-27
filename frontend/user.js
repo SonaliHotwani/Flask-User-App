@@ -25,14 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function generateScrolls() {
-        const html = await fetchHTML('scrolls/');
+        const response =  await fetch("/scrolls.json");
         const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const scrollDirs = [...doc.querySelectorAll('a')]
-            .map(a => a.textContent)
-            .filter(name => name.startsWith('s'));
+        const data =  response.json();
 
-        for (const [scrollIndex, scrollName] of scrollDirs.entries()) {
+
+        console.log("Response:", response);
+
+        data.scrolls.map(scroll, async scrollIndex => {
+            const scrollName = Object.keys(scroll)[0]
             const scrollDiv = document.createElement('div');
             scrollDiv.classList.add('scroll');
 
@@ -106,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             scrollDiv.appendChild(panelContainer);
             container.appendChild(scrollDiv);
-        }
+        });
     }
 
     generateScrolls();
