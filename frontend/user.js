@@ -26,13 +26,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function generateScrolls() {
         const response =  await fetch("/scrolls.json");
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const parser = new DOMParser();
-        const data =  response.json();
+        const data =  await response.json();
 
 
-        console.log("Response:", response);
+        console.log("Data:", data);
 
-        data.scrolls.map(scroll, async scrollIndex => {
+        data.scrolls.map(async (scroll, scrollIndex) => {
             const scrollName = Object.keys(scroll)[0]
             const scrollDiv = document.createElement('div');
             scrollDiv.classList.add('scroll');
