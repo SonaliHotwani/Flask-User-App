@@ -19,24 +19,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById('scrollContainer');
     let imageCount = 0;
 
-    async function fetchHTML(url) {
-        const response = await fetch(url);
-        return response.text();
-    }
-
     async function generateScrolls() {
         const response =  await fetch("/scrolls.json");
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const parser = new DOMParser();
         const data =  await response.json();
 
 
         console.log("Data:", data);
 
         data.scrolls.map(async (scroll, scrollIndex) => {
-            const scrollName = Object.keys(scroll)[0]
+            const [scrollName, content] = Object.entries(scroll)[0];
             const scrollDiv = document.createElement('div');
             scrollDiv.classList.add('scroll');
 
@@ -51,13 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
             panelContainer.classList.add('panel-container');
             // panelContainer.style.display = 'none';
 
-            const imgHtml = await fetchHTML(`scrolls/${scrollName}/img/`);
-            const imgDoc = parser.parseFromString(imgHtml, 'text/html');
-            const images = [...imgDoc.querySelectorAll('a')]
-                .map(a => a.textContent)
-                .filter(name => name.endsWith('.jpg'));
-
-            images.forEach((imgFile, panelIndex) => {
+            content.img.map((img, panelIndex) => {
                 imageCount++;
                 const imageId = imageCount;
                 const panelWrapper = document.createElement('div');
@@ -76,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 panelContent.innerHTML = `
                         <div class="section">
-                            <img id="image-${imageId}" src="scrolls/${scrollName}/img/${imgFile}" alt="Frame Image" style="max-width: 100%; max-height: 400px; display: block; margin: 0 auto; object-fit: contain;">
+                            <img id="image-${imageId}" src="scrolls/${scrollName}/img/${img}" alt="Frame Image" style="max-width: 100%; max-height: 400px; display: block; margin: 0 auto; object-fit: contain;">
                             <p style="text-align: center; margin-top: 10px;">Image ${imageId} in Panel ${panelIndex + 1} in Scroll ${scrollIndex + 1}</p>
                         </div>
                         <div class="section">
